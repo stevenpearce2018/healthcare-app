@@ -8,6 +8,7 @@ const TempAndPulse = require('./database/models/tempAndPulse')
 const Medications = require('./database/models/medications')
 const Patient = require('./database/models/patient')
 const connect = require('./database/connect')
+const path = require("path")
 connect()
 // File compression middleware/body parser middlewear
 
@@ -19,6 +20,7 @@ app.use(minify())
 // Parses request.body, just an easy module to help handle the request.body
 app.use(bodyParser.json({limit:'50mb'}))
 app.use(bodyParser.urlencoded({ extended: true, limit:'50mb' }))
+app.use(express.static(path.join(__dirname, "../client", "build")))
 
 app.get('/medications/:_id', async(req, res) => {
     const { _id } = req.params
@@ -110,5 +112,19 @@ app.put('/patient-status/:_id', async(req, res) => {
 //     await medications.save().catch(err => console.log(err)) 
 //   }
 //   registerPatient()
+app.get('*.js', (req, res, next) => {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'text/javascript');
+    next();
+  });
+  app.get('*.css', (req, res, next) => {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'text/css');
+    next();
+  });
+
+  app.get("*", (req, res) => res.sendFile(path.join(__dirname, "../client", "build", "index.html")));
 
 app.listen(5000, () => console.log('App listening on port http://localhost:5000! Make sure you change the port here and in the proxy if you have something cached on this url :).'))
