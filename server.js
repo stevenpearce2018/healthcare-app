@@ -22,6 +22,8 @@ app.use(bodyParser.json({limit:'50mb'}))
 app.use(bodyParser.urlencoded({ extended: true, limit:'50mb' }))
 app.use(express.static(path.join(__dirname, "client", "build")))
 
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "client", "build", "index.html")));
+
 app.get('/medications/:_id', async(req, res) => {
     const { _id } = req.params
     const medications = await Medications.findOne({ _id })
@@ -117,14 +119,15 @@ app.get('*.js', (req, res, next) => {
     res.set('Content-Encoding', 'gzip');
     res.set('Content-Type', 'text/javascript');
     next();
-  });
-  app.get('*.css', (req, res, next) => {
+});
+
+app.get('*.css', (req, res, next) => {
     req.url = req.url + '.gz';
     res.set('Content-Encoding', 'gzip');
     res.set('Content-Type', 'text/css');
     next();
-  });
+});
 
-  app.get("*", (req, res) => res.sendFile(path.join(__dirname, "client", "build", "index.html")));
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "client", "build", "index.html")));
 
 app.listen(process.env.PORT || 5000, () => console.log('App listening on port http://localhost:5000! Make sure you change the port here and in the proxy if you have something cached on this url :).'))
