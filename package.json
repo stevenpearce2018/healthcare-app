@@ -1,0 +1,7 @@
+{
+    "name": "healthcaretest",
+    "version": "0.1.0",
+    "private": true,
+    "start": "nodemon server/server.js"
+}
+  
