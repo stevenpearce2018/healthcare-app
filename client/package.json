@@ -2,7 +2,7 @@
   "name": "healthcaretest",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:80",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "mobx": "^5.13.0",

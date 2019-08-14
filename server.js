@@ -127,4 +127,4 @@ app.get('*.js', (req, res, next) => {
 
   app.get("*", (req, res) => res.sendFile(path.join(__dirname, "client", "build", "index.html")));
 
-app.listen(80, () => console.log('App listening on port http://localhost:80! Make sure you change the port here and in the proxy if you have something cached on this url :).'))
+app.listen(process.env.PORT || 5000, () => console.log('App listening on port http://localhost:5000! Make sure you change the port here and in the proxy if you have something cached on this url :).'))
